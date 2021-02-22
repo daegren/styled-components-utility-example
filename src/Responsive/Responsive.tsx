@@ -4,6 +4,25 @@ import styled, { css } from 'styled-components'
 const Container = styled.div`
   display: grid;
   grid-template-columns: repeat(1, minmax(0, 1fr));
+
+  ${({ theme }) =>
+    theme.breakpoint(
+      'sm',
+      css`
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        padding: ${theme.spacing(12)} ${theme.spacing(8)};
+        column-gap: ${theme.spacing(8)};
+      `
+    )}
+
+  ${({ theme }) =>
+    theme.breakpoint(
+      'md',
+      css`
+        padding-top: ${theme.spacing(16)};
+        padding-bottom: ${theme.spacing(16)};
+      `
+    )}
 `
 
 const RentalInfo = styled.div`
@@ -12,25 +31,61 @@ const RentalInfo = styled.div`
   z-index: 10;
   grid-column-start: 1;
   grid-row-start: 1;
-  padding: ${({ theme }) => theme.spacing(4)} ${({ theme }) => theme.spacing(4)}
-    ${({ theme }) => theme.spacing(3)};
+  padding: ${({ theme }) => theme.spacing(40)}
+    ${({ theme }) => theme.spacing(4)} ${({ theme }) => theme.spacing(3)};
   background-image: linear-gradient(
     to top,
     ${({ theme }) => theme.palette.black},
     rgba(0, 0, 0, 0)
   );
+
+  ${({ theme }) =>
+    theme.breakpoint(
+      'sm',
+      css`
+        background: none;
+      `
+    )}
 `
 
 const RentalType = styled.p`
   font-size: ${({ theme }) => theme.sizing(3.5)};
   font-weight: 500;
   color: ${({ theme }) => theme.palette.white};
+
+  ${({ theme }) =>
+    theme.breakpoint(
+      'sm',
+      css`
+        margin-bottom: ${theme.spacing(1)};
+        color: ${theme.palette.gray500};
+      `
+    )}
 `
 
 const RentalName = styled.h2`
   margin: 0;
   color: ${({ theme }) => theme.palette.white};
+  font-size: ${({ theme }) => theme.sizing(5)};
   font-weight: 600;
+
+  ${({ theme }) =>
+    theme.breakpoint(
+      'sm',
+      css`
+        font-size: ${theme.sizing(6)};
+        line-height: ${theme.sizing(7)};
+        color: ${theme.palette.black};
+      `
+    )}
+
+  ${({ theme }) =>
+    theme.breakpoint(
+      'md',
+      css`
+        font-size: ${theme.sizing(7)};
+      `
+    )}
 `
 
 const RatingsAndLocation = styled.div`
@@ -38,6 +93,10 @@ const RatingsAndLocation = styled.div`
   grid-row-start: 2;
   padding-left: ${({ theme }) => theme.spacing(4)};
   padding-right: ${({ theme }) => theme.spacing(4)};
+
+  @media (min-width: ${({ theme }) => theme.widthFor('sm')}) {
+    padding-bottom: ${({ theme }) => theme.spacing(16)};
+  }
 `
 
 const Byline = styled.div`
@@ -47,6 +106,11 @@ const Byline = styled.div`
   font-weight: 500;
   margin-top: ${({ theme }) => theme.spacing(5)};
   margin-bottom: ${({ theme }) => theme.spacing(5)};
+
+  @media (min-width: ${({ theme }) => theme.widthFor('sm')}) {
+    margin-top: ${({ theme }) => theme.spacing(2)};
+    margin-bottom: ${({ theme }) => theme.spacing(4)};
+  }
 `
 
 const Star: FC<{ className?: string }> = ({ className }) => (
@@ -65,7 +129,19 @@ const Ratings = styled.div`
 const RatingAmount = styled.span`
   color: ${({ theme }) => theme.palette.black};
 `
-const RatingCount = styled.span``
+const RatingCount = styled.span`
+  @media (min-width: ${({ theme }) => theme.widthFor('sm')}) {
+    display: none;
+  }
+
+  ${({ theme }) =>
+    theme.breakpoint(
+      'md',
+      css`
+        display: inline;
+      `
+    )}
+`
 const Separator = styled.div`
   font-weight: normal;
   margin-left: ${({ theme }) => theme.spacing(2)};
@@ -75,13 +151,19 @@ const Separator = styled.div`
 const SectionSeparator = styled.hr`
   width: ${({ theme }) => theme.sizing(16)};
   border-color: ${({ theme }) => theme.palette.gray300};
-  visibility: hidden;
+  display: none;
+
+  @media (min-width: ${({ theme }) => theme.widthFor('sm')}) {
+    display: block;
+  }
 `
 
 const HostInformation = styled.div`
   grid-column-start: 1;
   grid-row-start: 3;
   padding-top: ${({ theme }) => theme.spacing(4)};
+  padding-left: ${({ theme }) => theme.spacing(4)};
+  padding-right: ${({ theme }) => theme.spacing(4)};
 
   ${({ theme }) => theme.spaceBetweenY(3)};
 `
@@ -112,6 +194,11 @@ const RentalImages = styled.div`
   grid-column-start: 1;
   grid-row-start: 1;
   display: flex;
+
+  @media (min-width: ${({ theme }) => theme.widthFor('sm')}) {
+    grid-column-start: 2;
+    grid-row: span 3 / span 3;
+  }
 `
 
 const Gallery = styled.div`
@@ -124,7 +211,26 @@ const Gallery = styled.div`
 
 const GalleryItem = styled.div<{ first?: boolean }>`
   position: relative;
-  display: ${({ first }) => (first ? 'initial' : 'none')};
+  ${({ first }) =>
+    first
+      ? css`
+          grid-column: span 3 / span 3;
+          grid-row: span 2 / span 2;
+        `
+      : css`
+          display: none;
+        `};
+
+  @media (min-width: ${({ theme }) => theme.widthFor('md')}) {
+    ${({ first }) =>
+      first
+        ? css`
+            grid-column: span 2 / span 2;
+          `
+        : css`
+            display: block;
+          `}
+  }
 `
 GalleryItem.defaultProps = { first: false }
 
@@ -138,11 +244,16 @@ const GalleryImage = styled.img<{ first?: boolean }>`
   width: 100%;
   object-fit: cover;
   background-color: ${({ theme }) => theme.palette.gray100};
-  ${({ first }) =>
-    !first &&
-    css`
-      display: none;
-    `}
+  ${({ first, theme }) =>
+    first
+      ? css`
+          @media (min-width: ${theme.widthFor('sm')}) {
+            border-radius: 1em;
+          }
+        `
+      : css`
+          border-radius: 1em;
+        `}
 `
 GalleryImage.defaultProps = { first: false }
 
