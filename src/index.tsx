@@ -17,6 +17,7 @@ declare module 'styled-components' {
     sizing: (x: Multiplier) => string
     spacing: (x: Multiplier) => string
     spaceBetweenX: (x: Multiplier) => FlattenSimpleInterpolation
+    spaceBetweenY: (x: Multiplier) => FlattenSimpleInterpolation
   }
 }
 
@@ -29,6 +30,12 @@ const defaultTheme: DefaultTheme = {
     & > * + * {
       margin-left: ${size * BASE}em;
       margin-right: 0;
+    }
+  `,
+  spaceBetweenY: (size) => css`
+    & > * + * {
+      margin-top: ${size * BASE}em;
+      margin-bottom: 0;
     }
   `
 }

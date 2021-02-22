@@ -1,4 +1,4 @@
-import { FC, useState } from 'react'
+import React, { FC, useState } from 'react'
 import styled from 'styled-components'
 
 const Container = styled.article`
@@ -158,7 +158,7 @@ export const Card: FC<CardProps> = ({ className }) => {
         <SizeSelector>
           <SizeButtonContainer>
             {['xs', 's', 'm', 'l', 'xl'].map((size) => (
-              <>
+              <React.Fragment key={size}>
                 <SizeButton
                   name="size"
                   type="radio"
@@ -169,7 +169,7 @@ export const Card: FC<CardProps> = ({ className }) => {
                   }}
                 />
                 {size.toUpperCase()}
-              </>
+              </React.Fragment>
             ))}
           </SizeButtonContainer>
           <SizeGuide>Size Guide</SizeGuide>
@@ -182,8 +182,8 @@ export const Card: FC<CardProps> = ({ className }) => {
           <LikeButton>
             <svg width="20" height="20" fill="currentColor">
               <path
-                fill-rule="evenodd"
-                clip-rule="evenodd"
+                fillRule="evenodd"
+                clipRule="evenodd"
                 d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z"
               />
             </svg>

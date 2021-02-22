@@ -1,6 +1,7 @@
 import styled from 'styled-components'
 import { BrowserRouter as Router, Link, Switch, Route } from 'react-router-dom'
 import CardContainer from './Card'
+import ResponsiveContainer from './Responsive'
 
 const AppContainer = styled.div`
   max-width: 1024px;
@@ -29,6 +30,9 @@ export const App = () => (
       <Switch>
         <Route exact path="/card">
           <CardContainer />
+        </Route>
+        <Route exact path="/responsive">
+          <ResponsiveContainer />
         </Route>
       </Switch>
     </Router>
